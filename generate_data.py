@@ -15,6 +15,7 @@ from faker import Faker
 fake = Faker('pt_BR')
 
 # Configurations
+BRAND = "Nola God Level Challenge Brand"
 BRAND_ID = 1
 SALES_STATUS = ['COMPLETED', 'CANCELLED']
 STATUS_WEIGHTS = [0.95, 0.05]  # 95% completed
@@ -86,6 +87,12 @@ def setup_base_data(conn):
     """Create brands, channels, payment types"""
     print("Setting up base data...")
     cursor = conn.cursor()
+
+    # brand
+    cursor.execute(
+            "INSERT INTO brands (name) VALUES (%s)",
+            (BRAND,)
+        )
     
     # Sub-brands
     sub_brands = ['Challenge Burger', 'Challenge Pizza', 'Challenge Sushi']

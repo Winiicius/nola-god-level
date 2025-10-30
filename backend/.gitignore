@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.python-version
+
+# Virtual environments
+.env/
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Package management
+*.egg
+*.egg-info/
+dist/
+build/
+pip-wheel-metadata/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# Temporary files
+*.tmp
+*.temp

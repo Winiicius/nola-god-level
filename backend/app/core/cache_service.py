@@ -1,19 +1,39 @@
 import redis
 import json
+import hashlib
+
 from app.core.config import settings
+from urllib.parse    import urlparse
 
-r = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
+class CacheService:
+    def __init__(self):
 
-def get_cache(key: str):
-    data = r.get(key)
-    return json.loads(data) if data else None
+        redis_url = settings.REDIS_URL
+        parsed = urlparse(redis_url)
 
-def set_cache(key: str, value: dict, ttl: int = 3600):
-    r.set(key, json.dumps(value), ex=ttl)
+        self.redis_client = redis.Redis(
+            host=parsed.hostname,
+            port=parsed.port or 6379,
+            password=parsed.password,
+            decode_responses=True
+        )
 
-def test_redis_connection():
-    try:
-        r.ping()
-        return "connected"
-    except redis.ConnectionError:
-        return "unavailable"
+    def _get_key(self, query_str: str):
+        """Gera uma hash única baseada na query SQL."""
+        return hashlib.sha256(query_str.encode()).hexdigest()
+
+    def get(self, query_str: str):
+        key = self._get_key(query_str)
+        cached = self.redis_client.get(key)
+        return json.loads(cached) if cached else None
+
+    def set(self, query_str: str, data, expire=300):
+        key = self._get_key(query_str)
+        self.redis_client.setex(key, expire, json.dumps(data))
+
+    def test_redis_connection(self):
+        try:
+            self.redis_client.ping()
+            return "connected"
+        except redis.ConnectionError:
+            return "unavailable"

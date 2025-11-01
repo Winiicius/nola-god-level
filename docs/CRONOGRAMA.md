@@ -80,21 +80,16 @@ Arquivos de documentação serão finalizados no dia 2
 
 ### Tarefas
 
-- [ ] Criar módulo `query_builder_service.py` para processar JSONs do front
-- [ ] Implementar integração com **SQLAlchemy** para gerar queries dinâmicas
-- [ ] Implementar **Redis Cache**:
-  - [ ] Gerar chave de cache (hash da query)
-  - [ ] Verificar cache antes da execução
-  - [ ] Salvar resultado processado após execução
-- [ ] Processar dados com **Pandas** (agregações, filtros, métricas)
-- [ ] Criar endpoints `/query` e `/analytics` com FastAPI
-- [ ] Documentar fluxo de cache e dados no **ARCHITECTURE.md**
+- [ X ] Criar módulo `query_builder_service.py` para processar JSONs do front
+- [ X ] Implementar integração com **SQLAlchemy** para gerar queries dinâmicas
+- [ X ] Implementar **Redis Cache**
+- [ X ] Processar dados com **Pandas** (agregações, filtros, métricas)
+- [ X ] Criar endpoints `/query` e `/analytics` com FastAPI
 
 ### Entregáveis
 
-- [ ] API funcional conectada ao banco e ao cache
-- [ ] Lógica de query → SQL → Pandas → Redis implementada
-- [ ] Respostas JSON otimizadas e testadas
+- [ X ] API funcional conectada ao banco e ao cache
+- [ X ] Lógica de query → SQL → Pandas → Redis implementada
 
 ---
 

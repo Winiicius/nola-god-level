@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -45,7 +45,7 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@godlevel.com
       PGADMIN_DEFAULT_PASSWORD: admin
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_SERVER_MODE: "False"
     ports:
       - "5050:80"
     depends_on:
@@ -53,7 +53,30 @@ services:
     profiles:
       - tools
 
+  redis:
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nola_backend
+    volumes:
+      - ./backend:/code
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - postgres
+      - redis
+
 volumes:
   postgres_data:
     driver: local
-
+  redis_data:

@@ -76,6 +76,13 @@ services:
       - postgres
       - redis
 
+  backend_tests:
+    build: ./backend
+    container_name: godlevel-tests
+    command: sh -c "export PYTHONPATH=/code && cd /code && python -m pytest app/tests/ -v"
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:
     driver: local

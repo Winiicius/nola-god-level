@@ -25,7 +25,6 @@ interface Props {
 }
 
 export default function QuerySidebar({ schema, selectedTable, selected = [], onDrop }: Props) {
-    // 🔹 Proteção caso o schema ainda não tenha sido carregado
     if (!schema || Object.keys(schema).length === 0) {
         return (
             <aside className="w-64 shrink-0 bg-accent border-r border-border p-4">
@@ -34,7 +33,6 @@ export default function QuerySidebar({ schema, selectedTable, selected = [], onD
         );
     }
 
-    // 🔹 Monta lista de tabelas a partir do schema
     const tables = Object.entries(schema)
         .filter(([_, value]) => value && typeof value === "object" && "metrics" in value)
         .map(([key, value]) => ({
@@ -43,7 +41,6 @@ export default function QuerySidebar({ schema, selectedTable, selected = [], onD
             value: key,
         }));
 
-    // 🔹 Recupera as métricas e dimensões da tabela selecionada
     const selectedSchema = selectedTable && schema[selectedTable] ? schema[selectedTable] : null;
 
     const metrics = selectedSchema
@@ -62,23 +59,19 @@ export default function QuerySidebar({ schema, selectedTable, selected = [], onD
         }))
         : [];
 
-    // 🔹 Filtros = mesmas dimensões (por enquanto)
     const filters = dimensions.map((d) => ({
         type: "filter" as const,
         label: d.label,
         value: d.value,
     }));
 
-    // 🔹 Verifica se já existe métrica selecionada
     const hasMetricSelected = selected?.some((b) => b.type === "metric");
 
     return (
         <aside className="w-64 shrink-0 bg-accent border-r border-border p-4 overflow-y-auto">
             <div className="space-y-6">
-                {/* 🔹 Tabelas */}
                 <QueryColumn title="Tabelas" items={tables} />
 
-                {/* 🔹 Métricas (bloqueadas se já tiver uma escolhida) */}
                 <div
                     className={cn(
                         "transition-all",
@@ -90,7 +83,6 @@ export default function QuerySidebar({ schema, selectedTable, selected = [], onD
                     <QueryColumn title="Métricas" items={metrics} />
                 </div>
 
-                {/* 🔹 Dimensões */}
                 <div
                     className={cn(
                         "transition-all",
@@ -100,7 +92,6 @@ export default function QuerySidebar({ schema, selectedTable, selected = [], onD
                     <QueryColumn title="Dimensões" items={dimensions} />
                 </div>
 
-                {/* 🔹 Filtros */}
                 <div
                     className={cn(
                         "transition-all",
@@ -114,7 +105,6 @@ export default function QuerySidebar({ schema, selectedTable, selected = [], onD
     );
 }
 
-/** Formata snake_case → Capitalizado */
 function formatLabel(key: string): string {
     return key
         .replace(/_/g, " ")

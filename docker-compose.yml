@@ -39,6 +39,16 @@ services:
     profiles:
       - tools
 
+  frontend:
+    build: ./frontend
+    container_name: nola-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/analytics
+    depends_on:
+      - backend
+
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: godlevel-pgadmin
@@ -75,6 +85,13 @@ services:
     depends_on:
       - postgres
       - redis
+
+  backend_tests:
+    build: ./backend
+    container_name: godlevel-tests
+    command: sh -c "export PYTHONPATH=/code && cd /code && python -m pytest app/tests/ -v"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:

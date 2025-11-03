@@ -23,7 +23,6 @@ export interface Block {
     value: string;
 }
 
-// 🎯 Novo tipo para o schema
 interface SemanticSchema {
     [table: string]: {
         label: string;
@@ -38,14 +37,13 @@ export default function QueryBuilder() {
     const [result, setResult] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
 
-    // ⚡ Busca o schema do backend e cacheia
     const { data: schema, isLoading: loadingSchema, error: schemaError } = useQuery<SemanticSchema>({
         queryKey: ["semantic-schema"],
         queryFn: async () => {
             const res = await api.get("/schema");
             return res.data.schema;
         },
-        staleTime: 1000 * 60 * 5, // cache de 5 minutos
+        staleTime: 1000 * 60 * 5,
     });
 
     const table = useMemo(() => selected.find((b) => b.type === "table")?.value, [selected]);
@@ -53,7 +51,6 @@ export default function QueryBuilder() {
     const dimension = useMemo(() => selected.find((b) => b.type === "dimension")?.value, [selected]);
 
     function handleDrop(block: Block) {
-        // Filtro
         if (block.type === "filter") {
             setFilters((prev) => {
                 const exists = prev.some((f) => f.value === block.value);
@@ -66,7 +63,6 @@ export default function QueryBuilder() {
             return;
         }
 
-        // ⚠️ Se for métrica, impede mais de uma
         if (block.type === "metric") {
             const alreadyHasMetric = selected.some((b) => b.type === "metric");
             if (alreadyHasMetric) {
@@ -75,20 +71,17 @@ export default function QueryBuilder() {
             }
         }
 
-        // ⚠️ Se for tabela, limpa seleção anterior
         if (block.type === "table") {
             setSelected([block]);
             setFilters([]);
             return;
         }
 
-        // Exige tabela antes de métrica/dimensão
         if (!table && block.type !== "table") {
             alert("Escolha uma TABELA primeiro.");
             return;
         }
 
-        // Garante que métrica/dimensão/filtro pertence à tabela atual
         const currentSchema = schema?.[table];
         if (
             block.type !== "table" &&
@@ -99,7 +92,6 @@ export default function QueryBuilder() {
             return;
         }
 
-        // Adiciona item normalmente
         setSelected((prev) => {
             if (prev.some((b) => b.value === block.value)) return prev;
             return [...prev, block];
@@ -158,7 +150,6 @@ export default function QueryBuilder() {
     return (
         <DndContext>
             <div className="flex h-[calc(100vh-64px)] overflow-hidden">
-                {/* Sidebar dinâmica */}
                 <QuerySidebar
                     schema={schema}
                     selectedTable={table}
@@ -166,7 +157,6 @@ export default function QueryBuilder() {
                     onDrop={handleDrop}
                 />
 
-                {/* Main */}
                 <section className="flex-1 flex flex-col gap-4 p-6 overflow-y-auto bg-muted/30">
                     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
                         <QueryCanvas onDrop={handleDrop} selected={selected} filters={filters} />
@@ -194,7 +184,6 @@ export default function QueryBuilder() {
                     </motion.div>
                 </section>
 
-                {/* Preview */}
                 <aside className="w-80 shrink-0 border-l border-border bg-accent/50 backdrop-blur p-4 overflow-y-auto">
                     <QueryPreview blocks={selected} filtersObject={buildFiltersObject()} />
                 </aside>

@@ -20,8 +20,8 @@ export type InputType = "text" | "date";
 
 export interface FilterBlock {
     type: "filter";
-    label: string;   // ex.: "Data"
-    value: string;   // ex.: "data"
+    label: string;
+    value: string;
     operator: "=" | ">=" | "<=" | "!=" | "LIKE";
     inputType: InputType;
     userValue: string;

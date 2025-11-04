@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { DndContext } from "@dnd-kit/core";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";

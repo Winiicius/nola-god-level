@@ -2,40 +2,54 @@
 
 ## Arquitetura Geral
 
-**Decisão:** Adotar arquitetura **modular em camadas (Frontend, Backend, Infraestrutura)**.  
+**Decisão:** Adotar arquitetura **modular em camadas (Frontend, Backend, Infraestrutura)**.
 **Motivo:** Facilita manutenção, testes independentes e escalabilidade futura.
 
-**Decisão:** Utilização de apenas um repositório para todo o projeto ( monorepo )  
-**Motivo:** visar a simplicidade, não havendo necessidade de complexidade adicional com múltiplos repositórios
+**Decisão:** Utilização de apenas um repositório para todo o projeto ( monorepo )
+**Motivo:** Visar a simplicidade, não havendo necessidade de complexidade adicional com múltiplos repositórios.
+
+---
+
+## Controle de Versão — Git Flow
+
+**Decisão:** Adotar o **Git Flow** como modelo de versionamento.
+**Motivo:** Facilita o gerenciamento de features, hotfixes e releases dentro do monorepo, garantindo organização e histórico limpo.
+**Fluxo padrão:**
+
+- `main` → versão estável
+- `develop` → branch principal de desenvolvimento
+- `feature/*` → novas funcionalidades
+- `release/*` → preparação de versões
+- `hotfix/*` → correções rápidas em produção
 
 ---
 
 ## Linguagem Backend — Python (FastAPI)
 
-**Decisão:** Usar **Python** com **FastAPI**.  
-**Motivo:** Visando que python é uma ótima linguagem para manipulação de dados, possui excelente performance, suporte nativo a async, e ecossistema de dados (Pandas, NumPy, SQLAlchemy).  
-**Alternativa:** Java + Spring Boot ( possuo mais experiência com a tecnologia ).  
+**Decisão:** Usar **Python** com **FastAPI**.
+**Motivo:** Visando que Python é uma ótima linguagem para manipulação de dados, possui excelente performance, suporte nativo a async e ecossistema de dados (Pandas, NumPy, SQLAlchemy).
+**Alternativa:** Java + Spring Boot ( possuo mais experiência com a tecnologia ).
 **Por que não?** Maior tempo de setup e menor flexibilidade para prototipagem de analytics.
 
 ---
 
 ## Banco de Dados — PostgreSQL
 
-**Decisão:** PostgreSQL.  
+**Decisão:** PostgreSQL.
 **Motivo:** Foi o banco recomendado no desafio ( também possuo mais experiência ).
 
 ---
 
 ## Cache — Redis
 
-**Decisão:** Manter cache de resultados de queries agregadas no **Redis**.  
+**Decisão:** Manter cache de resultados de queries agregadas no **Redis**.
 **Motivo:** Reduz tempo de resposta e evita sobrecarga no banco.
 
 ---
 
 ## ORM — SQLAlchemy
 
-**Decisão:** Usar **SQLAlchemy ORM** para gerar queries.  
+**Decisão:** Usar **SQLAlchemy ORM** para gerar queries.
 **Motivo:** Evita SQL manual, melhora manutenção e permite reaproveitar lógicas de filtro no backend.
 
 ---
@@ -49,29 +63,40 @@
 
 ## Frontend — Next.js + Tailwind
 
-**Decisão:** Usar **Next.js** (React Framework) com **TailwindCSS**.  
+**Decisão:** Usar **Next.js** (React Framework) com **TailwindCSS**.
 **Motivo:** Build rápido, SSR opcional, estilização moderna e suporte fácil a componentes reutilizáveis.
 
 ---
 
 ## Query Builder Visual (Frontend)
 
-**Decisão:** Implementar uma interface drag-and-drop para criação de filtros e colunas.  
+**Decisão:** Implementar uma interface drag-and-drop para criação de filtros e colunas.
 **Motivo:** Permite flexibilidade e simplicidade para usuários não técnicos.
+
+---
+
+## Biblioteca de Drag and Drop — DnD Kit
+
+**Decisão:** Usar **@dnd-kit/core** para o sistema de drag-and-drop do Query Builder.
+**Motivo:** Biblioteca moderna, leve e altamente personalizável para interações complexas no frontend (melhor integração com React e TypeScript).
+**Alternativa:** React Beautiful DnD.
+**Por que não?** Está deprecated e menos flexível que o DnD Kit.
+
+---
 
 ## Visualização — Recharts ( A confirmar )
 
-**Decisão:** Usar **Recharts** para renderização de gráficos.  
-**Motivo:** Simples, personalizável e bem documentada.  
-**Alternativa:** Chart.js, ECharts.  
+**Decisão:** Usar **Recharts** para renderização de gráficos.
+**Motivo:** Simples, personalizável e bem documentada.
+**Alternativa:** Chart.js, ECharts.
 **Por que não?** Chart.js menos flexível para dashboards interativos.
 
 ---
 
 ## Deploy — Docker Compose ( inicialmente )
 
-**Decisão:** Usar **Docker Compose** durante o desenvolvimento.  
-**Motivo:** Facilita setup e reprodutibilidade (“clone e rode”).  
+**Decisão:** Usar **Docker Compose** durante o desenvolvimento.
+**Motivo:** Facilita setup e reprodutibilidade (“clone e rode”).
 **Plano futuro:** Deploy em cloud (Render, Fly.io ou Railway).
 
 ---

@@ -88,7 +88,11 @@ O resultado é uma solução moderna, modular e extensível, que une **dados, in
 
 # Video apresentação
 
+- [link do video](https://youtu.be/jjnSI435YDM)
+
 # deploy
+
+Deploy feito apenas do backend: https://nola-god-level-backend.onrender.com/health
 
 # Tutorial — Subindo os serviços com Docker Compose
 

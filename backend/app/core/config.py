@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     REDIS_URL: str
     FRONTEND_URL: str
+    REDIS_TOKEN: str
 
     model_config = ConfigDict(
         env_file=".env",

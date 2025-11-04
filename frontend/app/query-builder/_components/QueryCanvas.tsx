@@ -14,9 +14,9 @@ interface Block {
 }
 
 interface Props {
-    onDrop: (block: Block) => void;
-    selected?: Block[];
-    filters?: Block[];
+    onDrop: (block: any) => void;
+    selected: any[];
+    filters: any[];
 }
 
 export default function QueryCanvas({ onDrop, selected = [], filters = [] }: Props) {

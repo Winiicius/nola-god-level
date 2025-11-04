@@ -55,10 +55,17 @@ export default function QueryBuilder() {
             setFilters((prev) => {
                 const exists = prev.some((f) => f.value === block.value);
                 if (exists) return prev;
-                return [
-                    ...prev,
-                    { ...block, operator: "=", inputType: guessInputType(block.value), userValue: "" },
-                ];
+
+                const newFilter: FilterBlock = {
+                    type: "filter",
+                    label: block.label,
+                    value: block.value,
+                    operator: "=",
+                    inputType: guessInputType(block.value),
+                    userValue: "",
+                };
+
+                return [...prev, newFilter];
             });
             return;
         }
@@ -77,20 +84,21 @@ export default function QueryBuilder() {
             return;
         }
 
-        if (!table && block.type !== "table") {
+        if (!table && (block.type as BlockType) !== "table") {
             alert("Escolha uma TABELA primeiro.");
             return;
         }
 
-        const currentSchema = schema?.[table];
+        const currentSchema = table ? schema?.[table] : undefined;
         if (
-            block.type !== "table" &&
+            (block.type as BlockType) !== "table" &&
             currentSchema &&
             ![...(currentSchema.metrics || []), ...(currentSchema.dimensions || [])].includes(block.value)
         ) {
             alert("Essa métrica/dimensão não pertence à tabela selecionada.");
             return;
         }
+
 
         setSelected((prev) => {
             if (prev.some((b) => b.value === block.value)) return prev;
